@@ -1,0 +1,35 @@
+name: Variables
+
+on:
+  workflow_dispatch:
+
+env:
+  variable_global: VARIABLE GLOBAL
+
+jobs:
+  job-1:
+    runs-on: ubuntu-latest
+    env:
+      variable_job: VARIABLE JOB
+    steps:
+      - name: step 1 del job-1
+        run: |
+          echo el valor de la variable global es $variable_global
+          echo 'otra forma de escribir la variable es: ${{ env.variable_global }}'
+          echo 'también podemos definir variables a nivel de un único job: ${{env.variable_job}}'
+          echo 'o variables a nivel de step como esta: ${{ env.variable-step }}'
+        env:
+          variable-step: VARIABLE STEP
+
+      - name: step 2 del job-1
+        run: |
+          echo 'seguimos con acceso a la variable de WF: ${{ env.variable_global}}'
+          echo 'seguimos con acceso a la variable de job: ${{env.variable_job}}'
+
+  job-2:
+   runs-on: ubuntu-latest
+   steps:
+     - name: step1 del job-2
+       run: |
+         echo 'seguimos con acceso a la variable de WF: ${{ env.variable_global}}'
+      

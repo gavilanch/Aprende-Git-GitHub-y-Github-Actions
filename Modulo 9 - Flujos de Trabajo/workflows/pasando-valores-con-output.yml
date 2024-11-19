@@ -1,0 +1,25 @@
+name: Pasando valores con Output
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Escribe una variable
+        id: genera-valor
+        run: echo "MI_VALOR=felipe" >> "$GITHUB_OUTPUT"
+
+      - name: Obtiene la variable
+        run: echo "${{steps.genera-valor.outputs.MI_VALOR}}"
+
+      - name: Enmascarando un valor
+        id: enmascara
+        run: |
+          valor_secreto=claudia
+          echo "::add-mask::$valor_secreto"
+          echo "VALOR_SECRETO=$valor_secreto" >> "$GITHUB_OUTPUT"
+
+      - name: Usando el valor secreto
+        run: echo "El valor secreto es ${{steps.enmascara.outputs.VALOR_SECRETO}}"

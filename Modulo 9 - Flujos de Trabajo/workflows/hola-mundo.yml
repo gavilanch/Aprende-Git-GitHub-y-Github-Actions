@@ -1,0 +1,33 @@
+name: hola mundo
+
+on: 
+  workflow_dispatch:
+  # schedule:
+  #  - cron: "*/5 * * * *" # se ejecuta cada 5 minutos
+  #  - cron: "0 1 * * *" # se ejecutará a las 1 de la madrugada
+  push:
+    branches:
+      - main
+    paths:
+      - 'codigo/**'
+      - '.github/workflows/hola-mundo.yml'
+  pull_request:
+    branches:
+      - main
+
+# este es un comentario
+
+jobs:
+  saludar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Muestra mensaje hola mundo
+        run: echo "hola mundo, Felipe"
+        
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Listar los archivos del repositorio
+        run: |
+          echo "El repositorio ${{ github.repository }} contiene los siguientes archivos:"
+          tree

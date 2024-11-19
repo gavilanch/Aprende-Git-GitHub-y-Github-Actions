@@ -1,0 +1,32 @@
+name: Compilar y Probar
+
+on:
+  pull_request:
+    branches:
+      - main
+      
+env:
+  VERSION_DOTNET: '8'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      proyecto: GithubActionsDemoApp/GithubActionsDemoApp.csproj
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v4.2.2
+
+     - name: Instalar .NET
+       uses: actions/setup-dotnet@v4.1.0
+       with:
+         dotnet-version: ${{env.VERSION_DOTNET}}
+
+     - name: Obteniendo las dependencias
+       run: dotnet restore
+
+     - name: Compilar
+       run: dotnet build --no-restore
+
+     - name: Realizar pruebas
+       run: dotnet test --no-build
